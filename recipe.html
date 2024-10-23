@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mix Recipe</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="calculator.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Mix Recipe</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Ingredients</h2>
+      <ul>
+        <li id="id_ingredient1" data-name="buckwheat flour">200g buckwheat flour</li>
+        <li id="id_ingredient2" data-name="corn starch">700g corn starch</li>
+        <li id="id_ingredient3" data-name="potato/tapioca starch">100g potato or tapioca starch</li>
+        <li id="id_ingredient4" data-name="sugar">30g sugar</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Instructions</h2>
+      <p>Combine all the ingredients and mix well. Use the proportion calculator below to adjust the quantities based on your desired batch size.</p>
+    </section>
+
+    <section>
+      <h2>Proportion Calculator</h2>
+      <label for="servings">Enter the number of batches (1 batch ≈ 1 kilo):</label>
+      <input type="number" id="servings" name="servings" placeholder="1">
+      <button onclick="calculateProportions()">Calculate</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 My Recipes</p>
+  </footer>
+</body>
+</html>
