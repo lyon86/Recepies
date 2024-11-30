@@ -1,6 +1,6 @@
 function calculateProportions() {
   const servings = document.getElementById('servings').value || 1;
-
+  
   const ingredients = [
     document.getElementById('id_ingredient1'),
     document.getElementById('id_ingredient2'),
@@ -8,25 +8,21 @@ function calculateProportions() {
     document.getElementById('id_ingredient4'),
   ];
 
-  const totalWeight = ingredients.reduce((sum, ingredient) => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    return sum + baseAmount;
-  }, 0);
-
   ingredients.forEach(ingredient => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    const scaledAmount = (baseAmount * servings).toFixed(1);
-    const proportion = ((baseAmount / totalWeight) * 100).toFixed(1);
-
-    ingredient.innerHTML = `${scaledAmount}g ${ingredient.getAttribute('data-name')} <span class="proportion">(${proportion}%)</span>`;
+    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/)); 
+    ingredient.innerText = `${(baseAmount * servings).toFixed(1)}g ${ingredient.getAttribute('data-name')}`;
   });
 
-  updateLanguage();
+  // Apply the stored language after the calculation
+  const currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  document.querySelectorAll('[data-en][data-es]').forEach((el) => {
+    el.innerText = el.getAttribute(`data-${currentLanguage}`);
+  });
 }
 
 function calculateFlatBreadProportions() {
   const servings = document.getElementById('flatbread-servings').value || 1;
-
+  
   const ingredients = [
     document.getElementById('id_ingredient5'),
     document.getElementById('id_ingredient6'),
@@ -39,23 +35,12 @@ function calculateFlatBreadProportions() {
     document.getElementById('id_ingredient13'),
   ];
 
-  const totalWeight = ingredients.reduce((sum, ingredient) => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    return sum + baseAmount;
-  }, 0);
-
   ingredients.forEach(ingredient => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    const scaledAmount = (baseAmount * servings).toFixed(1);
-    const proportion = ((baseAmount / totalWeight) * 100).toFixed(1);
-
-    ingredient.innerHTML = `${scaledAmount}g ${ingredient.getAttribute('data-name')} <span class="proportion">(${proportion}%)</span>`;
+    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/)); 
+    ingredient.innerText = `${(baseAmount * servings).toFixed(1)}g ${ingredient.getAttribute('data-name')}`;
   });
 
-  updateLanguage();
-}
-
-function updateLanguage() {
+  // Apply the stored language after the calculation
   const currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
   document.querySelectorAll('[data-en][data-es]').forEach((el) => {
     el.innerText = el.getAttribute(`data-${currentLanguage}`);
