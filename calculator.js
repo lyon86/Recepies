@@ -1,4 +1,4 @@
-// Function to calculate the adjusted ingredient amounts dynamically
+// Function to calculate the adjusted ingredient amounts for Mix Recipe
 function calculateProportions() {
   const servings = document.getElementById('servings').value;
 
@@ -7,21 +7,21 @@ function calculateProportions() {
     return;
   }
 
-  // Base values for 1 kilo of mixture (serves 1 batch)
-  const baseQuantities = [200, 700, 100, 30]; // For buckwheat, corn starch, potato starch, sugar
+  // Base values for 1 batch of Mix Recipe
+  const baseQuantities = [200, 700, 100, 30]; // buckwheat, corn starch, potato/tapioca starch, sugar
 
-  // Loop through each ingredient and update its amount dynamically
+  // Update each ingredient dynamically
   baseQuantities.forEach((baseAmount, index) => {
     const adjustedAmount = baseAmount * servings;
     const ingredientElement = document.getElementById(`id_ingredient${index + 1}`);
     
-    // Update the ingredient amount text
     if (ingredientElement) {
       ingredientElement.innerText = adjustedAmount + "g " + ingredientElement.getAttribute('data-name');
     }
   });
 }
 
+// Function to calculate the adjusted ingredient amounts for Flat Bread Recipe
 function calculateFlatBreadProportions() {
   const servings = document.getElementById('flatbread-servings').value;
 
@@ -30,10 +30,10 @@ function calculateFlatBreadProportions() {
     return;
   }
 
-  // Base values for Flat Bread (1 batch)
-  const baseQuantitiesFlatBread = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12]; // Corresponding to the ingredients
+  // Base values for 1 batch of Flat Bread Recipe
+  const baseQuantitiesFlatBread = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12]; // buckwheat, corn starch, etc.
 
-  // Loop through each flat bread ingredient dynamically
+  // Update each ingredient dynamically
   baseQuantitiesFlatBread.forEach((baseAmount, index) => {
     const adjustedAmount = baseAmount * servings;
     const ingredientElement = document.getElementById(`id_ingredient${index + 5}`);
@@ -43,4 +43,3 @@ function calculateFlatBreadProportions() {
     }
   });
 }
-
