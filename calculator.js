@@ -21,3 +21,26 @@ function calculateProportions() {
     }
   });
 }
+
+function calculateFlatBreadProportions() {
+  const servings = document.getElementById('flatbread-servings').value;
+
+  if (servings <= 0) {
+    alert("Please enter a valid number of servings.");
+    return;
+  }
+
+  // Base values for Flat Bread (1 batch)
+  const baseQuantitiesFlatBread = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12]; // Corresponding to the ingredients
+
+  // Loop through each flat bread ingredient dynamically
+  baseQuantitiesFlatBread.forEach((baseAmount, index) => {
+    const adjustedAmount = baseAmount * servings;
+    const ingredientElement = document.getElementById(`id_ingredient${index + 5}`);
+    
+    if (ingredientElement) {
+      ingredientElement.innerText = adjustedAmount + "g " + ingredientElement.getAttribute('data-name');
+    }
+  });
+}
+
