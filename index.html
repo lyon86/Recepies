@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mix Recipe</title>
+  <title>Recipes</title>
   <link rel="stylesheet" href="styles.css">
   <script src="calculator.js" defer></script>
 </head>
 <body>
   <header>
-    <h1>Mix Recipe</h1>
+    <h1>Recipes</h1>
   </header>
 
   <main>
+    <!-- Mix Recipe Section -->
     <section>
-      <h2>Ingredients</h2>
+      <h2>Mix Recipe</h2>
       <ul>
         <li id="id_ingredient1" data-name="buckwheat flour">200g buckwheat flour</li>
         <li id="id_ingredient2" data-name="corn starch">700g corn starch</li>
@@ -24,15 +25,33 @@
     </section>
 
     <section>
-      <h2>Instructions</h2>
-      <p>Combine all the ingredients and mix well. Use the proportion calculator below to adjust the quantities based on your desired batch size.</p>
-    </section>
-
-    <section>
-      <h2>Proportion Calculator</h2>
+      <h2>Proportion Calculator for Mix</h2>
       <label for="servings">Enter the number of batches (1 batch ≈ 1 kilo):</label>
       <input type="number" id="servings" name="servings" placeholder="1">
       <button onclick="calculateProportions()">Calculate</button>
+    </section>
+
+    <!-- Flat Bread Recipe Section -->
+    <section>
+      <h2>Flat Bread Recipe</h2>
+      <ul>
+        <li id="id_ingredient5" data-name="buckwheat flour">80g buckwheat flour</li>
+        <li id="id_ingredient6" data-name="corn starch">100g corn starch</li>
+        <li id="id_ingredient7" data-name="potato/tapioca starch">20g potato or tapioca starch</li>
+        <li id="id_ingredient8" data-name="xanthan gum">4g xanthan gum</li>
+        <li id="id_ingredient9" data-name="salt">2.5g salt</li>
+        <li id="id_ingredient10" data-name="sugar">5g sugar</li>
+        <li id="id_ingredient11" data-name="dry yeast">2.5g dry yeast</li>
+        <li id="id_ingredient12" data-name="water">135g water</li>
+        <li id="id_ingredient13" data-name="oil">12g oil</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Proportion Calculator for Flat Bread</h2>
+      <label for="flatbread-servings">Enter the number of batches:</label>
+      <input type="number" id="flatbread-servings" name="flatbread-servings" placeholder="1">
+      <button onclick="calculateFlatBreadProportions()">Calculate</button>
     </section>
   </main>
 
