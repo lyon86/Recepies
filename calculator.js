@@ -1,45 +1,48 @@
-// Function to calculate the adjusted ingredient amounts for Mix Recipe
 function calculateProportions() {
-  const servings = document.getElementById('servings').value;
+  const servings = document.getElementById('servings').value || 1;
+  
+  const ingredients = [
+    document.getElementById('id_ingredient1'),
+    document.getElementById('id_ingredient2'),
+    document.getElementById('id_ingredient3'),
+    document.getElementById('id_ingredient4'),
+  ];
 
-  if (servings <= 0) {
-    alert("Please enter a valid number of servings.");
-    return;
-  }
+  ingredients.forEach(ingredient => {
+    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/)); 
+    ingredient.innerText = `${(baseAmount * servings).toFixed(1)}g ${ingredient.getAttribute('data-name')}`;
+  });
 
-  // Base values for 1 batch of Mix Recipe
-  const baseQuantities = [200, 700, 100, 30]; // buckwheat, corn starch, potato/tapioca starch, sugar
-
-  // Update each ingredient dynamically
-  baseQuantities.forEach((baseAmount, index) => {
-    const adjustedAmount = baseAmount * servings;
-    const ingredientElement = document.getElementById(`id_ingredient${index + 1}`);
-    
-    if (ingredientElement) {
-      ingredientElement.innerText = adjustedAmount + "g " + ingredientElement.getAttribute('data-name');
-    }
+  // Apply the stored language after the calculation
+  const currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  document.querySelectorAll('[data-en][data-es]').forEach((el) => {
+    el.innerText = el.getAttribute(`data-${currentLanguage}`);
   });
 }
 
-// Function to calculate the adjusted ingredient amounts for Flat Bread Recipe
 function calculateFlatBreadProportions() {
-  const servings = document.getElementById('flatbread-servings').value;
+  const servings = document.getElementById('flatbread-servings').value || 1;
+  
+  const ingredients = [
+    document.getElementById('id_ingredient5'),
+    document.getElementById('id_ingredient6'),
+    document.getElementById('id_ingredient7'),
+    document.getElementById('id_ingredient8'),
+    document.getElementById('id_ingredient9'),
+    document.getElementById('id_ingredient10'),
+    document.getElementById('id_ingredient11'),
+    document.getElementById('id_ingredient12'),
+    document.getElementById('id_ingredient13'),
+  ];
 
-  if (servings <= 0) {
-    alert("Please enter a valid number of servings.");
-    return;
-  }
+  ingredients.forEach(ingredient => {
+    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/)); 
+    ingredient.innerText = `${(baseAmount * servings).toFixed(1)}g ${ingredient.getAttribute('data-name')}`;
+  });
 
-  // Base values for 1 batch of Flat Bread Recipe
-  const baseQuantitiesFlatBread = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12]; // buckwheat, corn starch, etc.
-
-  // Update each ingredient dynamically
-  baseQuantitiesFlatBread.forEach((baseAmount, index) => {
-    const adjustedAmount = baseAmount * servings;
-    const ingredientElement = document.getElementById(`id_ingredient${index + 5}`);
-    
-    if (ingredientElement) {
-      ingredientElement.innerText = adjustedAmount + "g " + ingredientElement.getAttribute('data-name');
-    }
+  // Apply the stored language after the calculation
+  const currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  document.querySelectorAll('[data-en][data-es]').forEach((el) => {
+    el.innerText = el.getAttribute(`data-${currentLanguage}`);
   });
 }
