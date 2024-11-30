@@ -21,7 +21,7 @@ function calculateProportions() {
     ingredient.innerHTML = `${scaledAmount}g ${ingredient.getAttribute('data-name')} <span class="proportion">(${proportion}%)</span>`;
   });
 
-  updateLanguage();
+  //updateLanguage();
 }
 
 function calculateFlatBreadProportions() {
@@ -52,7 +52,7 @@ function calculateFlatBreadProportions() {
     ingredient.innerHTML = `${scaledAmount}g ${ingredient.getAttribute('data-name')} <span class="proportion">(${proportion}%)</span>`;
   });
 
-  updateLanguage();
+  //updateLanguage();
 }
 
 function updateLanguage() {
