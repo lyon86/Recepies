@@ -1,5 +1,6 @@
 function calculateProportions() {
-  const servings = document.getElementById('servings').value || 1;
+  const servingsInput = document.getElementById('servings');
+  const servingBaseAmounts = [200, 700, 100, 30]; // Base amounts for 1 serving
 
   const ingredients = [
     document.getElementById('id_ingredient1'),
@@ -8,24 +9,38 @@ function calculateProportions() {
     document.getElementById('id_ingredient4'),
   ];
 
-  const totalWeight = ingredients.reduce((sum, ingredient) => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    return sum + baseAmount;
-  }, 0);
+  // Adjust all inputs proportionally when any ingredient changes
+  ingredients.forEach((input, index) => {
+    input.oninput = () => {
+      const newAmount = parseFloat(input.value) || 0;
 
-  ingredients.forEach(ingredient => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    const scaledAmount = (baseAmount * servings).toFixed(1);
-    const proportion = ((baseAmount / totalWeight) * 100).toFixed(1);
+      // Calculate new servings based on changed ingredient
+      const newServings = newAmount / servingBaseAmounts[index];
+      servingsInput.value = newServings.toFixed(1);
 
-    ingredient.innerHTML = `${scaledAmount}g ${ingredient.getAttribute('data-name')} <span class="proportion">(${proportion}%)</span>`;
+      // Update all other ingredients proportionally
+      ingredients.forEach((otherInput, otherIndex) => {
+        if (index !== otherIndex) {
+          otherInput.value = (servingBaseAmounts[otherIndex] * newServings).toFixed(1);
+        }
+      });
+    };
   });
 
-  //updateLanguage();
+  // Update ingredients when servings input changes
+  servingsInput.oninput = () => {
+    const newServings = parseFloat(servingsInput.value) || 1;
+
+    ingredients.forEach((input, index) => {
+      input.value = (servingBaseAmounts[index] * newServings).toFixed(1);
+    });
+  };
 }
 
 function calculateFlatBreadProportions() {
-  const servings = document.getElementById('flatbread-servings').value || 1;
+  const flatbreadCountInput = document.getElementById('flatbread-count');
+  const flatbreadBaseAmounts = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12]; // Base amounts for 10 flatbreads
+  const baseFlatbreads = 10;
 
   const ingredients = [
     document.getElementById('id_ingredient5'),
@@ -39,25 +54,30 @@ function calculateFlatBreadProportions() {
     document.getElementById('id_ingredient13'),
   ];
 
-  const totalWeight = ingredients.reduce((sum, ingredient) => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    return sum + baseAmount;
-  }, 0);
+  // Adjust all inputs proportionally when any ingredient changes
+  ingredients.forEach((input, index) => {
+    input.oninput = () => {
+      const newAmount = parseFloat(input.value) || 0;
 
-  ingredients.forEach(ingredient => {
-    const baseAmount = parseFloat(ingredient.getAttribute('data-en').match(/^\d+/));
-    const scaledAmount = (baseAmount * servings).toFixed(1);
-    const proportion = ((baseAmount / totalWeight) * 100).toFixed(1);
+      // Calculate new flatbread count based on changed ingredient
+      const newFlatbreadCount = (newAmount * baseFlatbreads) / flatbreadBaseAmounts[index];
+      flatbreadCountInput.value = newFlatbreadCount.toFixed(1);
 
-    ingredient.innerHTML = `${scaledAmount}g ${ingredient.getAttribute('data-name')} <span class="proportion">(${proportion}%)</span>`;
+      // Update all other ingredients proportionally
+      ingredients.forEach((otherInput, otherIndex) => {
+        if (index !== otherIndex) {
+          otherInput.value = ((flatbreadBaseAmounts[otherIndex] / baseFlatbreads) * newFlatbreadCount).toFixed(1);
+        }
+      });
+    };
   });
 
-  //updateLanguage();
-}
+  // Update ingredients when flatbread count changes
+  flatbreadCountInput.oninput = () => {
+    const newFlatbreadCount = parseFloat(flatbreadCountInput.value) || 1;
 
-function updateLanguage() {
-  const currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
-  document.querySelectorAll('[data-en][data-es]').forEach((el) => {
-    el.innerText = el.getAttribute(`data-${currentLanguage}`);
-  });
+    ingredients.forEach((input, index) => {
+      input.value = ((flatbreadBaseAmounts[index] / baseFlatbreads) * newFlatbreadCount).toFixed(1);
+    });
+  };
 }

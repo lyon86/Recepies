@@ -11,69 +11,80 @@
     <h1 data-en="Recipe Calculator" data-es="Calculadora de Recetas">Recipe Calculator</h1>
     <label for="language-select" data-en="Language:" data-es="Idioma:">Language:</label>
     <select id="language-select" onchange="changeLanguage()">
-      <option value="en">English</option>
+      <option value="en" selected>English</option>
       <option value="es">Español</option>
     </select>
   </header>
+<section>
+  <h2 data-en="Mix Recipe" data-es="Receta de Mezcla">Mix Recipe</h2>
+  <label for="servings" data-en="Number of servings:" data-es="Número de porciones:">Number of servings:</label>
+  <input type="number" id="servings" min="1" value="1" oninput="calculateProportions()">
 
-  <section>
-    <h2 data-en="Mix Recipe" data-es="Receta de Mezcla">Mix Recipe</h2>
-    <label for="servings" data-en="Number of servings:" data-es="Número de porciones:">Number of servings:</label>
-    <input type="number" id="servings" min="1" value="1">
-    <button onclick="calculateProportions()" data-en="Calculate" data-es="Calcular">Calculate</button>
+  <ul>
+    <li>
+      <input type="number" id="id_ingredient1" value="200" min="0" step="0.1"> g
+      <span data-en="buckwheat flour" data-es="harina de trigo sarraceno">buckwheat flour</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient2" value="700" min="0" step="0.1"> g
+      <span data-en="corn starch" data-es="almidón de maíz">corn starch</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient3" value="100" min="0" step="0.1"> g
+      <span data-en="potato or tapioca starch" data-es="almidón de patata o tapioca">potato or tapioca starch</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient4" value="30" min="0" step="0.1"> g
+      <span data-en="sugar" data-es="azúcar">sugar</span>
+    </li>
+  </ul>
+</section>
 
-    <ul>
-      <li id="id_ingredient1" data-name="buckwheat flour" data-en="200g buckwheat flour" data-es="200g harina de trigo sarraceno">
-        200g buckwheat flour <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient2" data-name="corn starch" data-en="700g corn starch" data-es="700g almidón de maíz">
-        700g corn starch <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient3" data-name="potato/tapioca starch" data-en="100g potato or tapioca starch" data-es="100g almidón de patata o tapioca">
-        100g potato or tapioca starch <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient4" data-name="sugar" data-en="30g sugar" data-es="30g azúcar">
-        30g sugar <span class="proportion"></span>
-      </li>
-    </ul>
-  </section>
+<section>
+  <h2 data-en="Flatbread Recipe" data-es="Receta de Pan Plano">Flatbread Recipe</h2>
+  <label for="flatbread-count" data-en="Number of flatbreads:" data-es="Número de panes:">Number of flatbreads:</label>
+  <input type="number" id="flatbread-count" min="1" value="10" oninput="calculateFlatBreadProportions()">
 
-  <section>
-    <h2 data-en="Flatbread Recipe" data-es="Receta de Pan Plano">Flatbread Recipe</h2>
-    <label for="flatbread-servings" data-en="Number of servings:" data-es="Número de porciones:">Number of servings:</label>
-    <input type="number" id="flatbread-servings" min="1" value="1">
-    <button onclick="calculateFlatBreadProportions()" data-en="Calculate" data-es="Calcular">Calculate</button>
+  <ul>
+    <li>
+      <input type="number" id="id_ingredient5" value="80" min="0" step="0.1"> g
+      <span data-en="buckwheat flour" data-es="harina de trigo sarraceno">buckwheat flour</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient6" value="100" min="0" step="0.1"> g
+      <span data-en="corn starch" data-es="almidón de maíz">corn starch</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient7" value="20" min="0" step="0.1"> g
+      <span data-en="potato or tapioca starch" data-es="almidón de patata o tapioca">potato or tapioca starch</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient8" value="4" min="0" step="0.1"> g
+      <span data-en="xanthan gum" data-es="goma xantana">xanthan gum</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient9" value="2.5" min="0" step="0.1"> g
+      <span data-en="salt" data-es="sal">salt</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient10" value="5" min="0" step="0.1"> g
+      <span data-en="sugar" data-es="azúcar">sugar</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient11" value="2.5" min="0" step="0.1"> g
+      <span data-en="dry yeast" data-es="levadura seca">dry yeast</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient12" value="135" min="0" step="0.1"> g
+      <span data-en="water" data-es="agua">water</span>
+    </li>
+    <li>
+      <input type="number" id="id_ingredient13" value="12" min="0" step="0.1"> g
+      <span data-en="oil" data-es="aceite">oil</span>
+    </li>
+  </ul>
+</section>
 
-    <ul>
-      <li id="id_ingredient5" data-name="buckwheat flour" data-en="80g buckwheat flour" data-es="80g harina de trigo sarraceno">
-        80g buckwheat flour <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient6" data-name="corn starch" data-en="100g corn starch" data-es="100g almidón de maíz">
-        100g corn starch <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient7" data-name="potato/tapioca starch" data-en="20g potato or tapioca starch" data-es="20g almidón de patata o tapioca">
-        20g potato or tapioca starch <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient8" data-name="xanthan gum" data-en="4g xanthan gum" data-es="4g goma xantana">
-        4g xanthan gum <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient9" data-name="salt" data-en="2.5g salt" data-es="2.5g sal">
-        2.5g salt <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient10" data-name="sugar" data-en="5g sugar" data-es="5g azúcar">
-        5g sugar <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient11" data-name="dry yeast" data-en="2.5g dry yeast" data-es="2.5g levadura seca">
-        2.5g dry yeast <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient12" data-name="water" data-en="135g water" data-es="135g agua">
-        135g water <span class="proportion"></span>
-      </li>
-      <li id="id_ingredient13" data-name="oil" data-en="12g oil" data-es="12g aceite">
-        12g oil <span class="proportion"></span>
-      </li>
-    </ul>
-  </section>
 
   <script src="language-switcher.js"></script>
   <script src="calculator.js"></script>
