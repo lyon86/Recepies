@@ -1,6 +1,7 @@
+const FLATBREAD_BASE_AMOUNT = 5; // Set the base flatbreads to 5
+
 function calculateProportions() {
-  const servingsInput = document.getElementById('servings');
-  const servingBaseAmounts = [200, 700, 100, 30]; // Base amounts for 1 serving
+  const servings = document.getElementById('servings').value || 1;
 
   const ingredients = [
     document.getElementById('id_ingredient1'),
@@ -9,39 +10,23 @@ function calculateProportions() {
     document.getElementById('id_ingredient4'),
   ];
 
-  // Adjust all inputs proportionally when any ingredient changes
+  const servingBaseAmounts = [200, 700, 100, 30];
+
   ingredients.forEach((input, index) => {
-    input.oninput = () => {
-      const newAmount = parseFloat(input.value) || 0;
-
-      // Calculate new servings based on changed ingredient
-      const newServings = newAmount / servingBaseAmounts[index];
-      servingsInput.value = newServings.toFixed(1);
-
-      // Update all other ingredients proportionally
-      ingredients.forEach((otherInput, otherIndex) => {
-        if (index !== otherIndex) {
-          otherInput.value = (servingBaseAmounts[otherIndex] * newServings).toFixed(1);
-        }
-      });
-    };
+    input.value = (servingBaseAmounts[index] * servings).toFixed(1);
   });
 
-  // Update ingredients when servings input changes
-  servingsInput.oninput = () => {
-    const newServings = parseFloat(servingsInput.value) || 1;
-
-    ingredients.forEach((input, index) => {
-      input.value = (servingBaseAmounts[index] * newServings).toFixed(1);
-    });
-  };
+  updatePieChart(
+    '#mix-piechart',
+    ingredients.map(input => parseFloat(input.value)),
+    ingredients.map(input => input.nextElementSibling.innerText)
+  );
 }
 
 function calculateFlatBreadProportions() {
-  const flatbreadCountInput = document.getElementById('flatbread-count');
-  const flatbreadBaseAmounts = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12]; // Base amounts for 10 flatbreads
-  const baseFlatbreads = 10;
+  const flatbreadCount = document.getElementById('flatbread-count').value || 1;
 
+  const flatbreadBaseAmounts = [80, 100, 20, 4, 2.5, 5, 2.5, 140, 12];
   const ingredients = [
     document.getElementById('id_ingredient5'),
     document.getElementById('id_ingredient6'),
@@ -54,30 +39,114 @@ function calculateFlatBreadProportions() {
     document.getElementById('id_ingredient13'),
   ];
 
-  // Adjust all inputs proportionally when any ingredient changes
   ingredients.forEach((input, index) => {
-    input.oninput = () => {
-      const newAmount = parseFloat(input.value) || 0;
-
-      // Calculate new flatbread count based on changed ingredient
-      const newFlatbreadCount = (newAmount * baseFlatbreads) / flatbreadBaseAmounts[index];
-      flatbreadCountInput.value = newFlatbreadCount.toFixed(1);
-
-      // Update all other ingredients proportionally
-      ingredients.forEach((otherInput, otherIndex) => {
-        if (index !== otherIndex) {
-          otherInput.value = ((flatbreadBaseAmounts[otherIndex] / baseFlatbreads) * newFlatbreadCount).toFixed(1);
-        }
-      });
-    };
+    const adjustedValue = ((flatbreadBaseAmounts[index] / FLATBREAD_BASE_AMOUNT) * flatbreadCount).toFixed(1);
+    input.value = adjustedValue;
   });
 
-  // Update ingredients when flatbread count changes
-  flatbreadCountInput.oninput = () => {
-    const newFlatbreadCount = parseFloat(flatbreadCountInput.value) || 1;
-
-    ingredients.forEach((input, index) => {
-      input.value = ((flatbreadBaseAmounts[index] / baseFlatbreads) * newFlatbreadCount).toFixed(1);
-    });
-  };
+  updatePieChart(
+    '#flatbread-piechart',
+    ingredients.map(input => parseFloat(input.value)),
+    ingredients.map(input => input.nextElementSibling.innerText)
+  );
 }
+
+
+function updatePieChart(container, data, labels) {
+  const width = 400; // Increased width for larger labels
+  const height = 300; // Increased height for better spacing
+  const radius = Math.min(width, height) / 3;
+
+  const color = d3.scaleOrdinal(d3.schemeTableau10);
+
+  // Calculate percentages
+  const total = data.reduce((acc, val) => acc + val, 0);
+  const dataWithPercentages = data.map((value, i) => ({
+    label: labels[i],
+    value: value,
+    percentage: ((value / total) * 100).toFixed(1),
+  }));
+
+  // Sort data from greatest to smallest
+  const sortedData = dataWithPercentages.sort((a, b) => b.percentage - a.percentage);
+
+  const svg = d3
+    .select(container)
+    .html('') // Clear existing chart
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+    .attr('transform', `translate(${radius + 20}, ${height / 2})`); // Center pie chart with some padding
+
+  const pie = d3.pie().value(d => d.value)(sortedData);
+  const arc = d3.arc().innerRadius(0).outerRadius(radius);
+
+  // Draw pie chart
+  svg
+    .selectAll('path')
+    .data(pie)
+    .enter()
+    .append('path')
+    .attr('d', arc)
+    .attr('fill', (d, i) => color(i));
+
+  // Draw labels on the right with squares
+  const labelGroup = d3
+    .select(container)
+    .select('svg')
+    .append('g')
+    .attr('transform', `translate(${radius * 2 + 40}, ${height / 2 - sortedData.length * 10})`); // Position to the right of the pie
+
+  labelGroup
+    .selectAll('rect')
+    .data(sortedData)
+    .enter()
+    .append('rect')
+    .attr('x', 0)
+    .attr('y', (d, i) => i * 30) // Adjust vertical spacing
+    .attr('width', 16)
+    .attr('height', 16)
+    .attr('fill', (d, i) => color(i));
+
+  labelGroup
+    .selectAll('text')
+    .data(sortedData)
+    .enter()
+    .append('text')
+    .attr('x', 20) // Position text next to the square
+    .attr('y', (d, i) => i * 30 + 12) // Align text vertically with squares
+    .text(d => `${d.percentage}% ${d.label}`) // Percent first, then label
+    .style('font-size', '14px') // Larger font size for readability
+    .style('fill', '#333')
+    .style('text-anchor', 'start'); // Align text to start
+}
+
+
+
+
+function loadLanguage() {
+  const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  document.getElementById('language-select').value = savedLanguage;
+
+  document.querySelectorAll('[data-en][data-es]').forEach(el => {
+    el.innerText = el.getAttribute(`data-${savedLanguage}`);
+  });
+
+  calculateProportions(); // Recalculate and redraw Mix Recipe
+  calculateFlatBreadProportions(); // Recalculate and redraw Flatbread Recipe
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  calculateProportions();
+  calculateFlatBreadProportions();
+  loadLanguage();
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  calculateProportions(); // Initialize Mix Recipe
+  calculateFlatBreadProportions(); // Initialize Flatbread Recipe
+  loadLanguage(); // Load language settings and labels
+});
