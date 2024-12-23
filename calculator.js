@@ -26,7 +26,7 @@ function calculateProportions() {
 function calculateFlatBreadProportions() {
   const flatbreadCount = document.getElementById('flatbread-count').value || 1;
 
-  const flatbreadBaseAmounts = [80, 100, 20, 4, 2.5, 5, 2.5, 140, 12];
+  const flatbreadBaseAmounts = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12];
   const ingredients = [
     document.getElementById('id_ingredient5'),
     document.getElementById('id_ingredient6'),
@@ -50,6 +50,7 @@ function calculateFlatBreadProportions() {
     ingredients.map(input => input.nextElementSibling.innerText)
   );
 }
+
 
 
 function updatePieChart(container, data, labels) {
@@ -125,6 +126,7 @@ function updatePieChart(container, data, labels) {
 
 
 
+
 function loadLanguage() {
   const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
   document.getElementById('language-select').value = savedLanguage;
@@ -141,12 +143,4 @@ document.addEventListener('DOMContentLoaded', () => {
   calculateProportions();
   calculateFlatBreadProportions();
   loadLanguage();
-});
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  calculateProportions(); // Initialize Mix Recipe
-  calculateFlatBreadProportions(); // Initialize Flatbread Recipe
-  loadLanguage(); // Load language settings and labels
 });
