@@ -26,7 +26,7 @@ function calculateProportions() {
 function calculateFlatBreadProportions() {
   const flatbreadCount = document.getElementById('flatbread-count').value || 1;
 
-  const flatbreadBaseAmounts = [80, 100, 20, 4, 2.5, 5, 2.5, 135, 12];
+  const flatbreadBaseAmounts = [80, 100, 20, 4, 2.5, 5, 2.5, 140, 12];
   const ingredients = [
     document.getElementById('id_ingredient5'),
     document.getElementById('id_ingredient6'),
